@@ -8,14 +8,14 @@ import DAO.StudentDaoImp;
 
 public class InsertStudentDetailsUseCase {
 
-	public static void main(String[] args) {
+	public static boolean main(String[] args) {
+		
 		Scanner sc = new Scanner(System.in);
+		
 		System.out.println("Enter your Roll no : ");
 		int roll = sc.nextInt();
-		
 		System.out.println("Enter your Name : ");
 		String name = sc.next();
-		
 		System.out.println("Enter your Course name : ");
 		String cName = sc.next();
 		
@@ -30,9 +30,11 @@ public class InsertStudentDetailsUseCase {
 		try {
 			String res = dao.insertStudent(s);
 			System.out.println(res);
+			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
+			return false;
 		}
 	}
 }
