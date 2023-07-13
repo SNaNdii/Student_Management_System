@@ -19,10 +19,12 @@ public class StudentDaoImp implements StudentDao{
 		
 		try(Connection conn = Utility.provideConnection()) {
 			
-			PreparedStatement ps = conn.prepareStatement("insert into student values(?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("insert into student values(?,?,?,?,?)");
 			ps.setInt(1, s.getsRoll());
 			ps.setString(2, s.getsName());
-			ps.setString(3, s.getCourseName());
+			ps.setString(3, s.getMobile());
+			ps.setString(4, s.getPassword());
+			ps.setString(5, s.getCourseName());
 			
 			int x = ps.executeUpdate();
 			if(x > 0) {
@@ -39,22 +41,33 @@ public class StudentDaoImp implements StudentDao{
 	
 //---------------Insert Student Details---------------------
 @Override
-	public Student login(Student s) throws StudentException {
-		// TODO Auto-generated method stub
+	public Student login(String name, String pass) throws StudentException {
+		
+	Student s = new Student();
+	
 	try(Connection conn = Utility.provideConnection()) {
 		
-		PreparedStatement ps = conn.prepareStatement("select * from student where roll = ? and name = ?");
-		ps.setInt(1, s.getsRoll());
-		ps.setString(2, s.getsName());
+		PreparedStatement ps = conn.prepareStatement("select * from student where name = ? and password = ?");
+		ps.setString(1, name);
+		ps.setString(2, pass);
 		ResultSet rs = ps.executeQuery();
+		
 		if(rs.next()) {
-			int r = rs.getInt("sRoll");
-			String n = rs.getString("sName");
-			String c = rs.getString("courseName");
-			s = new Student(r, n, c);
+//			s = new Student();
+			s.setsRoll(rs.getInt("Roll no."));
+			s.setsName(rs.getString("Name"));
+			s.setMobile(rs.getString("Mobile"));
+			s.setPassword(rs.getString("Password"));
+			s.setCourseName(rs.getString("Course_Name"));
+			 
+			if(!s.getPassword().equals(pass)) {
+					
+					throw new StudentException("Wrong Password");
+					
+				}
 		}
 		else {
-			
+			throw new StudentException("Invalid EmplUserName or EmplPassword...");
 		}
 		
 	} catch (Exception e) {

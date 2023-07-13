@@ -16,6 +16,10 @@ public class InsertStudentDetailsUseCase {
 		int roll = sc.nextInt();
 		System.out.println("Enter your Name : ");
 		String name = sc.next();
+		System.out.println("Enter your Mobile no : ");
+		String mobile = sc.next();
+		System.out.println("Enter your password : ");
+		String pass = sc.next();
 		System.out.println("Enter your Course name : ");
 		String cName = sc.next();
 		
@@ -23,6 +27,8 @@ public class InsertStudentDetailsUseCase {
 		Student s = new Student();
 		s.setsRoll(roll);
 		s.setsName(name);
+		s.setMobile(mobile);
+		s.setPassword(pass);
 		s.setCourseName(cName);
 		
 		StudentDao dao = new StudentDaoImp();
