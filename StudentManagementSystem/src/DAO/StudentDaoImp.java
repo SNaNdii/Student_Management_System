@@ -39,7 +39,7 @@ public class StudentDaoImp implements StudentDao{
 	}
 
 	
-//---------------Insert Student Details---------------------
+//---------------login---------------------
 @Override
 	public Student login(String name, String pass) throws StudentException {
 		
@@ -75,6 +75,38 @@ public class StudentDaoImp implements StudentDao{
 	}
 		return s;
 	}
+
+
+//---------------Get student details by roll no---------------------
+
+@Override
+public Student getStudentByRoll(int roll) throws StudentException {
+	// TODO Auto-generated method stub
+	Student s1 = null;
+	
+	try(Connection conn = Utility.provideConnection()) {
+		PreparedStatement ps = conn.prepareStatement("select * from student where roll = ?");
+		ps.setInt(1, roll);
+		
+		ResultSet rs = ps.executeQuery();
+		if(rs!=null) {
+			if(rs.next()) {
+				s1.setsRoll(rs.getInt("roll"));
+				s1.setsName(rs.getString("roll"));
+				s1.setMobile(rs.getString("roll"));
+				s1.setPassword(rs.getString("roll"));
+				s1.setCourseName(rs.getString("roll"));
+			}
+		}
+		else {
+			System.out.println("Student doesn't exist");
+		}
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	return s1;
+}
 	
 
 
